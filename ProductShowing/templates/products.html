@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<br>
+    <div class="d-flex justify-content-center">
+      <form action="{{url_for('products')}}" method="get" class="form-inline">
+        <label class="sr-only" for="inlineFormInputName2">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" name="search" id="search" placeholder="Enter item name" value="{{fill}}">
+        <button type="submit" class="btn btn-primary mb-2" id="search-btn">Search</button>
+      </form>
+    </div>
+    <div class="alert alert-primary" role="alert">
+        {{resmsg}}
+    </div>
+
+    <div class="container-fluid">
+    {% for product in products %}
+    {% if loop.index % 3 == 1  %}
+    <div class="card-deck">
+    {% endif %}
+          <div class="card border-light" style="max-width: 20rem;">
+                <img class="card-img-top" src="\static\img\{{product.img}}" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.name}}</h5>
+                  <p class="card-text">{{product.description}}</p>
+                </div>
+                {% if sent == 1 %}
+                <div class="alert alert-warning" role="alert">
+                    Email has been sent
+                </div>
+                <div class="card-body" style="display:none";>
+                {% else %}
+                <div class="card-body">
+                {% endif %}
+                  <form action="{{ url_for('products') }}" method="post" class="form-inline">
+                      <label class="sr-only" for="inlineFormInputName2">Email</label>
+                      <input type="text" name="email" class="form-control mb-2 mr-sm-1" style="width:190px; height:32px" id="inputEmail" placeholder="Enter your email" required>
+                      <button id="email-btn" type="submit" class="btn btn-primary btn-sm mb-2">Interested</button>
+                      <input type="hidden" name="prdId" value={{product.id}}>
+                  </form>
+                  
+              </div>
+          </div>
+    {% if loop.index % 3 == 0  %}
+    </div>
+    {% endif %}
+    {% endfor %}
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
